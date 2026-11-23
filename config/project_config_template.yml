@@ -1,0 +1,57 @@
+project:
+  name: ""
+  description: ""
+  upstream_pipeline_commit: ""   # Trazabilidad del commit/versión de RNA_seq_3_pipeline usado
+
+paths:
+  counts_file: ""                # Ej. data/counts.tsv
+  metadata_file: ""              # Ej. config/sample_metadata.tsv
+  gene_annotation_file: ""       # Ej. data/gene_metadata.tsv
+  intermediate_dir: "results/intermediate"
+  tables_dir: "results/tables"
+  figures_dir: "results/figures"
+  provenance_dir: "results/provenance"
+
+design:
+  formula: "~ genotype"
+  condition_col: "genotype"
+  reference_level: "WT"
+  excluded_samples: []           # Ej. ["S19"] — siempre explícito y auditable
+
+contrasts:
+  # Cada entrada define: nombre_contraste: [variable_diseño, nivel_numerador, nivel_denominador]
+  MGA_KO_vs_WT: ["genotype", "MGA_KO", "WT"]
+  Double_KO_vs_MGA_KO: ["genotype", "Double_KO", "MGA_KO"]
+
+de:
+  alpha: 0.05
+  lfc_threshold: 0.58
+  alt_hypothesis: "greaterAbs"
+  p_adjust_method: "BH"
+  independent_filtering: true
+  shrink_type: "ashr"
+  parallel: false                # Activar si se configura BiocParallel en el setup
+
+gsea:
+  ont: "H"                       # Ej. MSigDB / GO / KEGG según tu pipeline GSEA
+  pvalue_cutoff: 0.05
+  min_gs_size: 15
+  max_gs_size: 500
+
+plots:
+  ma:
+    y_limit: 6
+  lfc:
+    bins: 50
+  pval:
+    bins: 30
+  volcano:
+    x_limit: 5
+    y_limit: 15
+    label_n: 10
+  expression:
+    n_genes: 12
+    panel_size: 6
+    show_boxplot: false
+    metadata_cols: ["genotype"]
+    palette: {}                  # Ej. WT: "steelblue", MGA_KO: "forestgreen"

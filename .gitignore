@@ -1,0 +1,16 @@
+*.tsv
+*.csv
+*.xlsx
+*.png
+*.tiff
+*.parquet
+data/
+results/
+.Rproj.user
+.Rprofile
+.Rhistory
+.RData
+renv/
+*.lock
+.rds
+
